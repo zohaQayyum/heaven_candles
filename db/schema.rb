@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_24_145941) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_26_153158) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,38 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_24_145941) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_variant_id", null: false
+    t.string "sku", null: false
+    t.string "product_name", null: false
+    t.string "size", null: false
+    t.integer "quantity", default: 1, null: false
+    t.integer "unit_price", default: 0, null: false
+    t.integer "total_price", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_variant_id"], name: "index_order_items_on_product_variant_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "order_number", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "total_amount", default: 0, null: false
+    t.string "shipping_name", null: false
+    t.text "shipping_address", null: false
+    t.string "shipping_city", null: false
+    t.string "shipping_phone", null: false
+    t.integer "payment_status", default: 0, null: false
+    t.string "payment_reference"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_number"], name: "index_orders_on_order_number", unique: true
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "product_variants", force: :cascade do |t|
@@ -56,6 +88,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_24_145941) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "product_variants"
+  add_foreign_key "orders", "users"
   add_foreign_key "product_variants", "products"
   add_foreign_key "products", "categories"
 end

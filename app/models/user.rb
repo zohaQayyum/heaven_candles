@@ -1,9 +1,9 @@
 class User < ApplicationRecord
-    has_secure_password
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 
-    enum role: { customer: 0, admin: 1 }
+  enum role: { customer: 0, admin: 1 }
 
-    validates :name, presence: true
-    validates :email, presence: true, uniqueness: true
-    validates :role, presence: true
+  validates :email, presence: true, uniqueness: true
+  validates :role, presence: true
 end

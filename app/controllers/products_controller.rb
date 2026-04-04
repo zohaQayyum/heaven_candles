@@ -4,4 +4,8 @@ class ProductsController < ApplicationController
   def index
     @products = Product.includes(:category, :product_variants).all
   end
+  
+  def show
+    @product = Product.includes(:category, :product_variants).find(params[:id])
+  end
 end

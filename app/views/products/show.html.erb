@@ -1,0 +1,31 @@
+<%= link_to "← Back to Products", products_path %>
+
+<h1><%= @product.name %></h1>
+<p><strong>Category:</strong> <%= @product.category_name %></p>
+<p><strong>Description:</strong> <%= @product.description %></p>
+
+<h2>Available Sizes</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Size</th>
+      <th>Price</th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @product.product_variants.order(:size).each do |variant| %>
+      <tr>
+        <td><%= variant.size.capitalize %></td>
+        <td>$<%= variant.price %></td>
+        <td>
+          <% if variant.stock == 0 %>
+            <span>Out of Stock</span>
+          <% else %>
+            <%= variant.stock %> available
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

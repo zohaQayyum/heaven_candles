@@ -1,0 +1,16 @@
+<h1>Our Candles</h1>
+
+<% @products.group_by(&:category).each do |category, products| %>
+  <h2><%= category.name %></h2>
+  <ul>
+    <% products.each do |product| %>
+      <li>
+        <strong><%= product.name %></strong>
+        <p><%= product.description %></p>
+        <% if product.starting_price %>
+          <p>Starting from: $<%= product.starting_price %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

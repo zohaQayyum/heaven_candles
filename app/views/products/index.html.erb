@@ -1,3 +1,5 @@
+<%= link_to "← Back to Home", root_path %>
+
 <h1>Our Candles</h1>
 
 <% @products.group_by(&:category).each do |category, products| %>
@@ -5,7 +7,7 @@
   <ul>
     <% products.each do |product| %>
       <li>
-        <strong><%= product.name %></strong>
+       <strong><%= link_to product.name, product_path(product) %></strong>
         <p><%= product.description %></p>
         <% if product.starting_price %>
           <p>Starting from: $<%= product.starting_price %></p>

@@ -1,4 +1,5 @@
-<%= link_to "← Back to Products", products_path %>
+<p><%= link_to "← Back to Products", products_path %></p>
+<p><%= link_to "View Cart (#{cart_count})", cart_path %></p>
 
 <h1><%= @product.name %></h1>
 <p><strong>Category:</strong> <%= @product.category_name %></p>
@@ -25,6 +26,7 @@
             <%= variant.stock %> available
           <% end %>
         </td>
+        <td><%= button_to "Add to Cart", add_to_cart_path(variant.id), method: :post %></td>
       </tr>
     <% end %>
   </tbody>

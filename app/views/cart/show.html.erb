@@ -1,0 +1,42 @@
+<%= link_to "← Back to Products", products_path %>
+
+<h1>Your Cart</h1>
+
+<% if @variants.empty? %>
+  <p>Your cart is empty.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @variants.each do |variant| %>
+        <tr>
+          <td><%= variant.product.name %></td>
+          <td><%= variant.size.capitalize %></td>
+          <td>$<%= variant.price %></td>
+          <td style="white-space: nowrap;">
+            <%= button_to "-", decrement_cart_path(variant.id), method: :patch, data: { turbo: false } %>
+            <span style="margin: 0 8px;"><%= @cart[variant.id.to_s] %></span>
+            <%= button_to "+", increment_cart_path(variant.id), method: :patch, data: { turbo: false } %>
+          </td>
+          <td>$<%= (variant.price * @cart[variant.id.to_s]).round(2) %></td>
+          <td>
+            <%= button_to "Remove", remove_from_cart_path(variant.id), 
+                method: :delete, 
+                data: { turbo: false } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3>Total: $<%= @total.round(2) %></h3>
+<% end %>

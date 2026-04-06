@@ -1,0 +1,29 @@
+
+<p><%= link_to "← Back", admin_products_path %></p>
+
+<h1>Admin - Product Categories</h1>
+<%= link_to "New Category", new_admin_category_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Products Count</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.name %></td>
+        <td> <%= category.products.count %> products</td>
+        <td>
+          <%= link_to "Edit", edit_admin_category_path(category) %>
+          <%= button_to "Delete", admin_category_path(category), 
+              method: :delete, 
+              data: { turbo_confirm: "Are you sure?", turbo: false } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

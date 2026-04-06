@@ -1,12 +1,13 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Admin — Products</h1>
+  <div>
+    <%= link_to "New Product", new_admin_product_path, class: "btn btn-dark me-2" %>
+    <%= link_to "Manage Categories", admin_categories_path, class: "btn btn-outline-dark" %>
+  </div>
+</div>
 
-<p><%= link_to "← Back to Home", root_path %></p>
-
-<h1>Admin - Products</h1>
-<p><%= link_to "New Product", new_admin_product_path %></p>
-<p><%= link_to "Manage Categories", admin_categories_path %></p>
-
-<table>
-  <thead>
+<table class="table table-hover table-bordered">
+  <thead class="table-dark">
     <tr>
       <th>Name</th>
       <th>Category</th>
@@ -17,14 +18,12 @@
     <% @products.each do |product| %>
       <tr>
         <td><%= product.name %></td>
-        <td><%= product.category_name %></td>
+        <td><span class="badge bg-secondary"><%= product.category_name %></span></td>
         <td>
-          <%= link_to "Edit", edit_admin_product_path(product) %>
-          <%= button_to "Delete", admin_product_path(product), 
-              method: :delete, 
-              data: { turbo_confirm: "Are you sure?", turbo: false } %>
+          <%= link_to "Edit", edit_admin_product_path(product), class: "btn btn-sm btn-outline-dark me-1" %>
+          <%= link_to "Variants", admin_product_variants_path(product), class: "btn btn-sm btn-outline-secondary me-1" %>
+          <%= button_to "Delete", admin_product_path(product), method: :delete, class: "btn btn-sm btn-danger", data: { turbo_confirm: "Are you sure?", turbo: false } %>
         </td>
-        <td><%= link_to "Manage Variants", admin_product_variants_path(product) %></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,33 +1,49 @@
-<p><%= link_to "← Back to Products", products_path %></p>
-<p><%= link_to "View Cart (#{cart_count})", cart_path %></p>
+<div class="row">
+  <div class="col-md-8">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
+        <li class="breadcrumb-item active"><%= @product.name %></li>
+      </ol>
+    </nav>
 
-<h1><%= @product.name %></h1>
-<p><strong>Category:</strong> <%= @product.category_name %></p>
-<p><strong>Description:</strong> <%= @product.description %></p>
+    <h1 class="mb-1"><%= @product.name %></h1>
+    <span class="badge bg-secondary mb-3"><%= @product.category_name %></span>
+    <p class="lead"><%= @product.description %></p>
 
-<h2>Available Sizes</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Size</th>
-      <th>Price</th>
-      <th>Stock</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @product.product_variants.order(:size).each do |variant| %>
-      <tr>
-        <td><%= variant.size.capitalize %></td>
-        <td>$<%= variant.price %></td>
-        <td>
-          <% if variant.stock == 0 %>
-            <span>Out of Stock</span>
-          <% else %>
-            <%= variant.stock %> available
-          <% end %>
-        </td>
-        <td><%= button_to "Add to Cart", add_to_cart_path(variant.id), method: :post %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <h4 class="mt-4">Available Sizes</h4>
+    <table class="table table-bordered mt-2">
+      <thead class="table-dark">
+        <tr>
+          <th>Size</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @product.product_variants.order(:size).each do |variant| %>
+          <tr>
+            <td><%= variant.size.capitalize %></td>
+            <td class="text-success fw-bold">$<%= variant.price %></td>
+            <td>
+              <% if variant.stock == 0 %>
+                <span class="badge bg-danger">Out of Stock</span>
+              <% else %>
+                <span class="badge bg-success"><%= variant.stock %> available</span>
+              <% end %>
+            </td>
+            <td>
+              <% if variant.stock > 0 %>
+                <%= button_to "Add to Cart", add_to_cart_path(variant.id), 
+                    method: :post, 
+                    class: "btn btn-dark btn-sm",
+                    data: { turbo: false } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

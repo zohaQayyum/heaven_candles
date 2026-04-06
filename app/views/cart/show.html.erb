@@ -1,12 +1,13 @@
-<%= link_to "← Back to Products", products_path %>
-
-<h1>Your Cart</h1>
+<h1 class="mb-4">🛒 Your Cart</h1>
 
 <% if @variants.empty? %>
-  <p>Your cart is empty.</p>
+  <div class="text-center py-5">
+    <p class="lead text-muted">Your cart is empty.</p>
+    <%= link_to "Continue Shopping", products_path, class: "btn btn-dark" %>
+  </div>
 <% else %>
-  <table>
-    <thead>
+  <table class="table table-bordered align-middle">
+    <thead class="table-dark">
       <tr>
         <th>Product</th>
         <th>Size</th>
@@ -19,24 +20,29 @@
     <tbody>
       <% @variants.each do |variant| %>
         <tr>
-          <td><%= variant.product.name %></td>
+          <td><strong><%= variant.product.name %></strong></td>
           <td><%= variant.size.capitalize %></td>
           <td>$<%= variant.price %></td>
-          <td style="white-space: nowrap;">
-            <%= button_to "-", decrement_cart_path(variant.id), method: :patch, data: { turbo: false } %>
-            <span style="margin: 0 8px;"><%= @cart[variant.id.to_s] %></span>
-            <%= button_to "+", increment_cart_path(variant.id), method: :patch, data: { turbo: false } %>
-          </td>
-          <td>$<%= (variant.price * @cart[variant.id.to_s]).round(2) %></td>
           <td>
-            <%= button_to "Remove", remove_from_cart_path(variant.id), 
-                method: :delete, 
-                data: { turbo: false } %>
+            <%= button_to "-", decrement_cart_path(variant.id), method: :patch, class: "btn btn-outline-dark btn-sm", data: { turbo: false } %>
+            <span class="mx-2"><%= @cart[variant.id.to_s] %></span>
+            <%= button_to "+", increment_cart_path(variant.id), method: :patch, class: "btn btn-outline-dark btn-sm", data: { turbo: false } %>
+          </td>
+          <td class="text-success fw-bold">$<%= (variant.price * @cart[variant.id.to_s]).round(2) %></td>
+          <td>
+            <%= button_to "Remove", remove_from_cart_path(variant.id), method: :delete, class: "btn btn-danger btn-sm", data: { turbo: false } %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
-  <h3>Total: $<%= @total.round(2) %></h3>
+  <div class="d-flex justify-content-end mt-3">
+    <h4>Total: <span class="text-success">$<%= @total.round(2) %></span></h4>
+  </div>
+
+  <div class="d-flex justify-content-between mt-3">
+    <%= link_to "← Continue Shopping", products_path, class: "btn btn-outline-dark" %>
+    <%= link_to "Checkout", "#", class: "btn btn-dark" %>
+  </div>
 <% end %>

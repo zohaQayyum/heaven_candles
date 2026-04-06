@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   patch 'cart/decrement/:variant_id', to: 'cart#decrement', as: :decrement_cart
 
   namespace :admin do
-    resources :products
+    resources :products do
+      resources :variants, controller: 'product_variants'
+    end
     resources :categories
   end
 end

@@ -24,6 +24,7 @@
               method: :delete, 
               data: { turbo_confirm: "Are you sure?", turbo: false } %>
         </td>
+        <td><%= link_to "Manage Variants", admin_product_variants_path(product) %></td>
       </tr>
     <% end %>
   </tbody>

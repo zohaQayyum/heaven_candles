@@ -12,4 +12,8 @@ Rails.application.routes.draw do
   delete 'cart/remove/:variant_id', to: 'cart#remove', as: :remove_from_cart
   patch 'cart/increment/:variant_id', to: 'cart#increment', as: :increment_cart
   patch 'cart/decrement/:variant_id', to: 'cart#decrement', as: :decrement_cart
+
+  namespace :admin do
+    resources :products
+  end
 end

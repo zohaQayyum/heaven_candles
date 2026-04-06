@@ -1,0 +1,20 @@
+<%= form_with model: [:admin, product] do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description, rows: 4 %>
+  </div>
+
+  <div>
+    <%= f.label :category_id, "Category" %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, { prompt: "Select a category" } %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+
+<p><%= link_to "← Back to Home", root_path %></p>
+
+<h1>Admin - Products</h1>
+<%= link_to "New Product", new_admin_product_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.category_name %></td>
+        <td>
+          <%= link_to "Edit", edit_admin_product_path(product) %>
+          <%= button_to "Delete", admin_product_path(product), 
+              method: :delete, 
+              data: { turbo_confirm: "Are you sure?", turbo: false } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

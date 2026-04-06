@@ -1,0 +1,35 @@
+
+<p><%= link_to "← Back", admin_products_path %></p>
+
+<h1>Admin - Product Variants</h1>
+<%= link_to "New Product Variant", new_admin_product_variant_path(@product) %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Size</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Sku</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @variants.each do |variant| %>
+      <tr>
+        <td><%= @product.name %></td>
+        <td><%= variant.size %></td>
+        <td><%= variant.price.to_f %></td>
+        <td><%= variant.stock %></td>
+        <td><%= variant.sku %></td>
+        <td>
+          <%= link_to "Edit", edit_admin_product_variant_path(@product, variant) %>
+          <%= button_to "Delete", admin_product_variant_path(@product, variant), 
+              method: :delete, 
+              data: { turbo_confirm: "Are you sure?", turbo: false } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

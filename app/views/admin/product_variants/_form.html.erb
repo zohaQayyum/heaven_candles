@@ -1,0 +1,40 @@
+<% form_url = product_variant.persisted? ? 
+                admin_product_variant_path(@product, product_variant) : 
+                admin_product_variants_path(@product) %>
+
+<% form_method = product_variant.persisted? ? :patch : :post %>
+
+<%= form_with model: product_variant, url: form_url, method: form_method do |f| %>
+  <% if product_variant.errors.any? %>
+    <div>
+      <% product_variant.errors.full_messages.each do |msg| %>
+        <p style="color: red;"><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :size %>
+    <%= f.select :size, ProductVariant.sizes.keys.map { |s| [s.capitalize, s] }, { prompt: "Select size" } %>
+  </div>
+
+  <div>
+    <%= f.label :price %>
+    <%= f.number_field :price, step: 0.01, min: 0 %>
+  </div>
+
+  <div>
+    <%= f.label :stock %>
+    <%= f.number_field :stock, min: 0 %>
+  </div>
+
+  <div>
+    <%= f.label :sku %>
+    <%= f.text_field :sku %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+
+<% end %>

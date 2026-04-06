@@ -1,11 +1,10 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Admin — Categories</h1>
+  <%= link_to "New Category", new_admin_category_path, class: "btn btn-dark" %>
+</div>
 
-<p><%= link_to "← Back", admin_products_path %></p>
-
-<h1>Admin - Product Categories</h1>
-<%= link_to "New Category", new_admin_category_path %>
-
-<table>
-  <thead>
+<table class="table table-hover table-bordered">
+  <thead class="table-dark">
     <tr>
       <th>Name</th>
       <th>Products Count</th>
@@ -16,14 +15,14 @@
     <% @categories.each do |category| %>
       <tr>
         <td><%= category.name %></td>
-        <td> <%= category.products.count %> products</td>
+        <td><span class="badge bg-secondary"><%= category.products.count %> products</span></td>
         <td>
-          <%= link_to "Edit", edit_admin_category_path(category) %>
-          <%= button_to "Delete", admin_category_path(category), 
-              method: :delete, 
-              data: { turbo_confirm: "Are you sure?", turbo: false } %>
+          <%= link_to "Edit", edit_admin_category_path(category), class: "btn btn-sm btn-outline-dark me-1" %>
+          <%= button_to "Delete", admin_category_path(category), method: :delete, class: "btn btn-sm btn-danger", data: { turbo_confirm: "Are you sure?", turbo: false } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= link_to "← Back to Products", admin_products_path, class: "btn btn-outline-dark mt-2" %>

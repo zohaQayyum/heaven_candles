@@ -5,6 +5,7 @@
     <div class="navbar-nav ms-auto d-flex flex-row gap-3">
       <% if user_signed_in? %>
         <%= link_to "Products", products_path, class: "nav-link text-white" %>
+        <%= link_to "My Orders", orders_path, class: "nav-link text-white" %>
         <%= link_to "🛒 Cart (#{cart_count})", cart_path, class: "nav-link text-white" %>
         <% if current_user.admin? %>
           <%= link_to "Admin", admin_products_path, class: "nav-link text-warning" %>

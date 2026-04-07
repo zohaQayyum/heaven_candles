@@ -7,11 +7,11 @@ class Order < ApplicationRecord
   validates :shipping_name, :shipping_address, :shipping_city, :shipping_phone, presence: true
 
   enum status: {
-  pending: 0,
-  paid: 1,
-  failed: 2,
-  shipped: 3,
-  cancelled: 4
+    pending: 0,
+    processing: 1,
+    shipped: 2,
+    delivered: 3,
+    cancelled: 4
   }
 
   enum payment_status: {

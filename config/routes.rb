@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root "home#index"
   
   resources :products, only: [:index, :show]
+  resources :orders, only: [:index, :show, :new, :create]
   
   get "up" => "rails/health#show", as: :rails_health_check
 

@@ -16,3 +16,7 @@
  td form {
   display: inline;
 }
+
+html {
+  scroll-behavior: smooth;
+}

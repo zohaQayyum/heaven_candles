@@ -1,3 +1,5 @@
+<%= render "current_images", product: product if product.persisted? && product.images.attached? %>
+
 <%= form_with model: [:admin, product], class: "mt-3" do |f| %>
   <% if product.errors.any? %>
     <div class="alert alert-danger">
@@ -19,9 +21,14 @@
 
   <div class="mb-3">
     <%= f.label :category_id, "Category", class: "form-label" %>
-    <%= f.collection_select :category_id, Category.all, :id, :name, 
-        { prompt: "Select a category" }, 
+    <%= f.collection_select :category_id,  @categories, :id, :name,
+        { prompt: "Select a category" },
         { class: "form-select" } %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :images, "Add Images", class: "form-label" %>
+    <%= f.file_field :images, class: "form-control", accept: "image/*", multiple: true %>
   </div>
 
   <div>

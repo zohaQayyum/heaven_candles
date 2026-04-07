@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :products do
       resources :variants, controller: 'product_variants'
+      member do
+        delete :remove_image
+      end
     end
     resources :categories
   end

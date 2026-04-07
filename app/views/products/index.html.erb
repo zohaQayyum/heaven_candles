@@ -1,11 +1,27 @@
-<h1 class="mb-4">Our Candles</h1>
+<div class="position-relative mb-5" style="height: 400px; overflow: hidden;">
+  <img src="https://res.cloudinary.com/drdt6bbte/image/upload/v1775562923/banner_photo_sptd1q.jpg" 
+       alt="Heaven Candles Banner"
+       style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);">
+  <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+    <h1 class="display-3 fw-bold">Heaven Candles</h1>
+    <p class="lead fs-4">Handcrafted scents for every moment</p>
+    <a href="#candles" class="btn btn-warning btn-lg mt-2">Shop Now</a>
+  </div>
+</div>
 
-<% @products.group_by(&:category).each do |category, products| %>
-  <h2 class="mt-4 mb-3 border-bottom pb-2"><%= category.name %></h2>
-  <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-    <% products.each do |product| %>
-      <div class="col">
+<div id="candles"> 
+  <% @products.group_by(&:category).each do |category, products| %>
+    <h2 class="mt-4 mb-3 border-bottom pb-2"><%= category.name %></h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+      <% products.each do |product| %>
         <div class="card h-100 shadow-sm">
+          <% if product.images.attached? %>
+            <%= image_tag product.images.first, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+          <% else %>
+            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+              <span class="text-muted">🕯️ No image</span>
+            </div>
+          <% end %>
           <div class="card-body">
             <h5 class="card-title"><%= product.name %></h5>
             <p class="card-text text-muted"><%= product.description %></p>
@@ -17,7 +33,7 @@
             <%= link_to "View", product_path(product), class: "btn btn-dark btn-sm" %>
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

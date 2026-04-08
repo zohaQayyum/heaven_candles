@@ -1,35 +1,63 @@
-# README
+# Heaven Candles 🕯️
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A full-featured e-commerce web application built with Ruby on Rails, featuring product management, shopping cart, order checkout, and an admin panel.
 
-Things you may want to cover:
+## 🌐 Live Demo
+**[https://heaven-candles.onrender.com](https://heaven-candles.onrender.com)**
 
-* Ruby version
+> **Note:** Hosted on Render free tier. First load after inactivity may take 30-60 seconds.
 
-* System dependencies
+**Demo Credentials:**
+- Admin: `admin@heavencandles.com` / `password123`
+- Customer: `user@heavencandles.com` / `password123`
 
-* Configuration
+## ✨ Features
+- User authentication (sign up, login, logout) with Devise
+- Product catalog with categories and variants (size/price)
+- Image uploads with Active Storage + Cloudinary
+- Shopping cart with session storage and stock validation
+- Order checkout with shipping details
+- Order history for users
+- Admin panel — manage products, categories, variants and images
+- Responsive UI with Bootstrap 5
 
-* Database creation
+## 🛠️ Tech Stack
+- **Framework:** Ruby on Rails 7.1
+- **Language:** Ruby 3.2.2
+- **Database:** PostgreSQL
+- **Authentication:** Devise
+- **Image Storage:** Active Storage + Cloudinary
+- **Styling:** Bootstrap 5
+- **Deployment:** Render.com
 
-* Database initialization
+## ⚙️ Local Setup
+```bash
+# Clone the repo
+git clone https://github.com/zohaQayyum/heaven_candles.git
+cd heaven_candles
 
-* How to run the test suite
+# Install dependencies
+bundle install
 
-* Services (job queues, cache servers, search engines, etc.)
+# Setup database
+rails db:create
+rails db:migrate
+rails db:seed
 
-* Deployment instructions
+# Set environment variables
+# Create .env file with:
+# CLOUDINARY_CLOUD_NAME=your_cloud_name
+# CLOUDINARY_API_KEY=your_api_key
+# CLOUDINARY_API_SECRET=your_api_secret
 
-* ...
-# heaven_candles
-E-commerce application for a candle store built with Ruby on Rails 7, focusing on clean architecture, database integrity, and scalable domain design.
+# Start server
+rails server
+```
 
-## Technical Decisions
+## 📝 Technical Notes
 
-### Shopping Cart Implementation
-The cart is currently session-based for simplicity. This means:
-- Cart data is temporary and cleared when the session expires
-- Cart does not persist across different devices or browsers
+### Shopping Cart
+Currently session-based for simplicity. In production, a database-backed cart using `carts` and `cart_items` tables would provide persistence across devices and sessions.
 
-**Production improvement:** In a production environment, the cart would be database-backed using a `carts` and `cart_items` table linked to the user, allowing cart persistence across sessions and devices, and enabling business analytics on cart abandonment.
+### Image Uploads
+Uses Active Storage with Cloudinary as the storage backend, ensuring images persist across deployments and are served via CDN globally.

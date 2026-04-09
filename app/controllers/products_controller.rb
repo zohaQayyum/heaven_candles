@@ -3,6 +3,7 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.includes(:category, :product_variants).all
+    @products = @products.search_by_name_and_description(params[:search]) if params[:search].present?
   end
   
   def show

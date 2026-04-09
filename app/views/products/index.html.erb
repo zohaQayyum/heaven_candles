@@ -9,6 +9,23 @@
   </div>
 </div>
 
+<div class="container my-3">
+  <div class="d-flex justify-content-end">
+    <%= form_with url: products_path, method: :get, local: true do |f| %>
+      <div class="input-group" style="width: 350px;">
+        <%= f.text_field :search, 
+            value: params[:search],
+            placeholder: "Search candles...", 
+            class: "form-control form-control-sm" %>
+        <% if params[:search].present? %>
+          <%= link_to "✕", products_path, class: "btn btn-outline-secondary btn-sm" %>
+        <% end %>
+        <%= f.submit "Search", class: "btn btn-dark btn-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
 <div id="candles"> 
   <% @products.group_by(&:category).each do |category, products| %>
     <h2 class="mt-4 mb-3 border-bottom pb-2"><%= category.name %></h2>

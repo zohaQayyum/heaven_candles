@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Admin — Orders</h1>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>User Email</th>
+      <th>Order Number</th>
+      <th>Date</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.user_email %></td>
+        <td>
+          <%= link_to admin_order_path(order), class: "text-decoration-none" do %>
+            <span class="badge bg-secondary" 
+                  style="cursor: pointer;" 
+                  title="Click to view order details">
+              <%= order.order_number %> 🔍
+            </span>
+          <% end %>
+        </td>
+        <td><%= order.created_at.strftime("%b %d, %Y") %></td>
+        <td><%= number_to_currency(order.total_amount) %></td>
+        <td> 
+          <span class="badge <%= order_status_badge_class(order.status) %>">
+            <%= order.status.capitalize %>
+          </span>
+        </td>
+        <td>
+          <div class="mb-3">
+            <%= form_with url: admin_order_path(order), 
+              method: :patch, 
+              scope: :order,
+              local: true do |f| %>
+            <%= f.select :status, 
+                Order.statuses.keys.map { |s| [s.capitalize, s] },
+                { selected: order.status },
+                { class: "form-select form-select-sm", style: "width: 160px;",
+                  onchange: "this.form.submit()" } %>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "← Back", admin_products_path, class: "btn btn-outline-dark mt-2" %>

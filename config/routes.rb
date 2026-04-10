@@ -22,5 +22,6 @@ Rails.application.routes.draw do
       end
     end
     resources :categories
+    resources :orders, only: [:index, :show, :update]
   end
 end

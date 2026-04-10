@@ -24,7 +24,11 @@
           <td><%= order.created_at.strftime("%B %d, %Y") %></td>
           <td><%= order.order_items.count %> items</td>
           <td class="text-success fw-bold">$<%= order.total_amount %></td>
-          <td><span class="badge bg-warning text-dark"><%= order.status.capitalize %></span></td>
+          <td> 
+            <span class="badge <%= order_status_badge_class(order.status) %>">
+              <%= order.status.capitalize %>
+            </span>
+          </td>
           <td><%= link_to "View", order_path(order), class: "btn btn-sm btn-outline-dark" %></td>
         </tr>
       <% end %>

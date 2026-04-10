@@ -6,6 +6,8 @@ class Order < ApplicationRecord
 
   validates :shipping_name, :shipping_address, :shipping_city, :shipping_phone, presence: true
 
+  delegate :name, :email, to: :user, prefix: true, allow_nil: true
+
   enum status: {
     pending: 0,
     processing: 1,

@@ -6,9 +6,22 @@
 <div class="row justify-content-center">
   <div class="col-md-8">
     <div class="card shadow-sm mb-4">
-      <div class="card-header bg-dark text-white">
+      <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Order Details</h5>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge <%= order_status_badge_class(@order.status) %>">
+            <%= @order.status.capitalize %>
+          </span>
+          <%= form_with url: admin_order_path(@order), method: :patch, scope: :order, local: true do |f| %>
+            <%= f.select :status,
+                Order.statuses.keys.map { |s| [s.capitalize, s] },
+                { selected: @order.status },
+                { class: "form-select form-select-sm", style: "width: 160px;",
+                  onchange: "this.form.submit()" } %>
+          <% end %>
+        </div>
       </div>
+      
       <div class="card-body">
         <table class="table table-bordered">
           <thead class="table-dark">
@@ -17,7 +30,6 @@
               <th>Size</th>
               <th>Qty</th>
               <th>Price</th>
-              <th>Status</th>
               <th>Subtotal</th>
             </tr>
           </thead>
@@ -28,20 +40,6 @@
                 <td><%= item.size.capitalize %></td>
                 <td><%= item.quantity %></td>
                 <td>$<%= item.unit_price %></td>
-                <td>
-                  <div class="mb-3">
-                    <%= form_with url: admin_order_path(@order), 
-                      method: :patch, 
-                      scope: :order,
-                      local: true do |f| %>
-                    <%= f.select :status, 
-                        Order.statuses.keys.map { |s| [s.capitalize, s] },
-                        { selected: @order.status },
-                        { class: "form-select form-select-sm", style: "width: 160px;",
-                          onchange: "this.form.submit()" } %>
-                    <% end %>
-                  </div>
-                </td>
                 <td>$<%= item.total_price %></td>
               </tr>
             <% end %>

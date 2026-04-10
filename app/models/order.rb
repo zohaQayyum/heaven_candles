@@ -6,6 +6,10 @@ class Order < ApplicationRecord
 
   validates :shipping_name, :shipping_address, :shipping_city, :shipping_phone, presence: true
 
+  delegate :name, :email, to: :user, prefix: true, allow_nil: true
+
+  validate :valid_status_transition, if: :status_changed?
+
   enum status: {
     pending: 0,
     processing: 1,
@@ -19,4 +23,20 @@ class Order < ApplicationRecord
   paid: 1,
   refunded: 2
   }, _prefix: true
+
+  ALLOWED_TRANSITIONS = {
+    "pending"    => ["processing", "cancelled"],
+    "processing" => ["shipped", "cancelled"],
+    "shipped"    => ["delivered"],
+    "delivered"  => [],
+    "cancelled"  => []
+  }.freeze
+
+  private
+
+  def valid_status_transition
+    unless ALLOWED_TRANSITIONS[status_was]&.include?(status)
+      errors.add(:status, "cannot transition from #{status_was} to #{status}")
+    end
+  end
 end

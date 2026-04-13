@@ -1,0 +1,56 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="mb-4">Track Your Order</h2>
+      
+      <%= form_with url: track_orders_path, method: :get, local: true do |f| %>
+        <div class="input-group">
+          <%= f.text_field :order_number,
+              value: params[:order_number],
+              placeholder: "Enter order number e.g. HC-XXXXXX",
+              class: "form-control" %>
+          <% if params[:order_number].present? %>
+            <%= link_to "✕", track_orders_path, class: "btn btn-outline-secondary" %>
+          <% end %>
+          <%= f.submit "Track", class: "btn btn-dark" %>
+        </div>
+      <% end %>
+
+      <% if params[:order_number].present? %>
+        <% if @order %>
+          <h1 class="mb-4">Order Details</h1>
+
+          <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+              <tr>
+                <th>Order Number</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><%= @order.order_number %></strong></td>
+                <td><%= @order.created_at.strftime("%B %d, %Y") %></td>
+                <td><%= pluralize(@order.order_items.count, "item") %></td>
+                <td class="text-success fw-bold">$<%= @order.total_amount %></td>
+                <td> 
+                  <span class="badge <%= order_status_badge_class(@order.status) %>">
+                    <%= @order.status.capitalize %>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        <% else %>
+          <div class="alert alert-warning mt-3">
+            No order found with number <strong><%= params[:order_number] %></strong>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

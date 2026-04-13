@@ -64,6 +64,12 @@ class OrdersController < ApplicationController
     end
   end
 
+  def track
+    if params[:order_number].present?
+      @order = Order.find_by(order_number: params[:order_number].upcase.strip)
+    end
+  end
+
   private
 
   def order_params

@@ -1,5 +1,4 @@
 class CartController < ApplicationController
-  before_action :authenticate_user!
   before_action :initialize_cart
   before_action :find_variant, only: [:add, :increment, :decrement, :remove]
 

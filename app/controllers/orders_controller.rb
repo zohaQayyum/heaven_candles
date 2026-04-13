@@ -1,12 +1,16 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:index]
 
   def index
     @orders = current_user.orders.order(created_at: :desc)
   end
 
   def show
-    @order = current_user.orders.find(params[:id])
+    if current_user
+      @order = current_user.orders.find(params[:id])
+    else
+      @order = Order.find(params[:id])
+    end
   end
 
   def new
@@ -29,7 +33,7 @@ class OrdersController < ApplicationController
     @variants = ProductVariant.includes(:product).where(id: @cart.keys)
 
     @order = Order.new(order_params)
-    @order.user = current_user
+    @order.user = current_user if current_user
     @order.order_number = "HC-#{SecureRandom.hex(4).upcase}"
     @order.status = :pending
 

@@ -1,6 +1,6 @@
 <div class="text-center mb-4">
   <h1 class="text-success">✅ Order Placed Successfully!</h1>
-  <p class="lead">Thank you for your order, <strong><%= current_user.name %></strong>!</p>
+  <p class="lead">Thank you for your order, <strong><%= current_user&.name || @order.shipping_name %></strong>!</p>
   <p class="text-muted">Order Number: <strong><%= @order.order_number %></strong></p>
 </div>
 
@@ -52,8 +52,12 @@
     </div>
 
     <div class="d-flex gap-2">
-      <%= link_to "View All Orders", orders_path, class: "btn btn-outline-dark" %>
-      <%= link_to "Continue Shopping", products_path, class: "btn btn-dark" %>
+      <% if current_user %>
+        <%= link_to "View All Orders", orders_path, class: "btn btn-outline-dark" %>
+      <% else %>
+        <%= link_to "Continue Shopping", products_path, class: "btn btn-dark" %>
+        <small class="text-muted d-block mt-2">💡 <%= link_to "Create an account", new_user_registration_path %> to track your orders next time!</small>
+      <% end %>
     </div>
   </div>
 </div>

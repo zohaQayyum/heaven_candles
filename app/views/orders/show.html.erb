@@ -1,7 +1,13 @@
 <div class="text-center mb-4">
   <h1 class="text-success">✅ Order Placed Successfully!</h1>
   <p class="lead">Thank you for your order, <strong><%= current_user&.name || @order.shipping_name %></strong>!</p>
-  <p class="text-muted">Order Number: <strong><%= @order.order_number %></strong></p>
+</div>
+
+<div class="alert alert-info mt-3 d-flex justify-content-between align-items-center">
+  <span>📋 Save your order number to track it later: <strong><%= @order.order_number %></strong></span>
+  <button class="btn btn-sm btn-outline-dark" onclick="navigator.clipboard.writeText('<%= @order.order_number %>'); this.textContent='Copied!'">
+    Copy
+  </button>
 </div>
 
 <div class="row justify-content-center">
@@ -54,10 +60,8 @@
     <div class="d-flex gap-2">
       <% if current_user %>
         <%= link_to "View All Orders", orders_path, class: "btn btn-outline-dark" %>
-      <% else %>
-        <%= link_to "Continue Shopping", products_path, class: "btn btn-dark" %>
-        <small class="text-muted d-block mt-2">💡 <%= link_to "Create an account", new_user_registration_path %> to track your orders next time!</small>
       <% end %>
+      <%= link_to "Continue Shopping", products_path, class: "btn btn-dark" %>
     </div>
   </div>
 </div>

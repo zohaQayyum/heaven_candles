@@ -10,9 +10,9 @@ RSpec.describe Order, type: :model do
       should define_enum_for(:status)
       .with_values(
         pending: 0,
-        paid: 1,
-        failed: 2,
-        shipped: 3,
+        processing: 1,
+        shipped: 2,
+        delivered: 3,
         cancelled: 4
       )
     end
@@ -24,6 +24,42 @@ RSpec.describe Order, type: :model do
         paid: 1,
         refunded: 2
       ).with_prefix(true)
+    end
+  end
+
+  describe 'status transitions' do
+    context 'valid transitions' do
+      [
+        [:pending, :processing],
+        [:pending, :cancelled],
+        [:processing, :shipped],
+        [:processing, :cancelled],
+        [:shipped, :delivered]
+      ].each do |from, to|
+        it "allows #{from} to #{to}" do
+          order = create(:order)
+          order.update_column(:status, Order.statuses[from])
+          expect(order.update(status: to)).to be true
+        end
+      end
+    end
+
+    context 'invalid transitions' do
+      [
+        [:pending, :delivered],
+        [:pending, :shipped],
+        [:processing, :pending],
+        [:shipped, :pending],
+        [:delivered, :processing],
+        [:cancelled, :pending]
+      ].each do |from, to|
+        it "does not allow #{from} to #{to}" do
+          order = create(:order)
+          order.update_column(:status, Order.statuses[from])
+          expect(order.update(status: to)).to be false
+          expect(order.errors[:status]).to be_present
+        end
+      end
     end
   end
 end

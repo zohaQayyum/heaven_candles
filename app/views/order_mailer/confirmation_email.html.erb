@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+
+    <div style="text-align: center; padding: 20px; background-color: #1a1a1a; color: white; border-radius: 8px;">
+      <h1>🕯️ Heaven Candles</h1>
+      <h2 style="color: #28a745;">✅ Order Confirmed!</h2>
+      <p>Thank you, <strong><%= @order.shipping_name %></strong>!</p>
+      <p style="font-size: 18px;">Order Number: <strong><%= @order.order_number %></strong></p>
+    </div>
+
+    <div style="margin: 20px 0;">
+      <h3>Order Details</h3>
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #1a1a1a; color: white;">
+            <th style="padding: 10px; text-align: left;">Product</th>
+            <th style="padding: 10px;">Size</th>
+            <th style="padding: 10px;">Qty</th>
+            <th style="padding: 10px;">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.order_items.each do |item| %>
+            <tr style="border-bottom: 1px solid #ddd;">
+              <td style="padding: 10px;"><%= item.product_name %></td>
+              <td style="padding: 10px; text-align: center;"><%= item.size.capitalize %></td>
+              <td style="padding: 10px; text-align: center;"><%= item.quantity %></td>
+              <td style="padding: 10px; text-align: right;">$<%= item.total_price %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td colspan="3" style="padding: 10px; text-align: right;"><strong>Total:</strong></td>
+            <td style="padding: 10px; text-align: right; color: green;"><strong>$<%= @order.total_amount %></strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+      <h3>Shipping Information</h3>
+      <p><strong>Name:</strong> <%= @order.shipping_name %></p>
+      <p><strong>Phone:</strong> <%= @order.shipping_phone %></p>
+      <p><strong>Address:</strong> <%= @order.shipping_address %></p>
+      <p><strong>City:</strong> <%= @order.shipping_city %></p>
+    </div>
+
+    <div style="text-align: center; margin: 20px 0;">
+      <%= link_to "Track Your Order", track_orders_url(order_number: @order.order_number), 
+          style: "background-color: #1a1a1a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;" %>
+    </div>
+
+    <div style="text-align: center; color: #666; font-size: 12px; margin-top: 30px;">
+      <p>The Heaven Candles Team 🕯️</p>
+    </div>
+  </body>
+</html>

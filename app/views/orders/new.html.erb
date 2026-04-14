@@ -17,6 +17,14 @@
         <%= f.label :shipping_name, "Full Name", class: "form-label" %>
         <%= f.text_field :shipping_name, class: "form-control", placeholder: "Zoha Qayyum" %>
       </div>
+      
+      <div class="mb-3">
+        <%= f.label :shipping_email, "Email Address" %>
+        <%= f.email_field :shipping_email, 
+            class: "form-control",
+            placeholder: 'your@email.com' %>
+        <small class="text-muted">We'll send your order confirmation here</small>
+      </div>
 
       <div class="mb-3">
         <%= f.label :shipping_phone, "Phone Number", class: "form-label" %>

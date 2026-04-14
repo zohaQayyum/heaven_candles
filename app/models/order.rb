@@ -10,6 +10,8 @@ class Order < ApplicationRecord
 
   validate :valid_status_transition, if: :status_changed?
 
+  after_create :send_order_confirmation
+
   enum status: {
     pending: 0,
     processing: 1,
@@ -38,5 +40,9 @@ class Order < ApplicationRecord
     unless ALLOWED_TRANSITIONS[status_was]&.include?(status)
       errors.add(:status, "cannot transition from #{status_was} to #{status}")
     end
+  end
+
+  def send_order_confirmation
+    OrderMailer.confirmation_email(self).deliver_later
   end
 end

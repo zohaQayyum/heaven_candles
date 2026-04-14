@@ -48,6 +48,12 @@ A full-featured e-commerce web application built with Ruby on Rails, featuring p
 - Order status transitions with business rule validation (pending → processing → shipped → delivered)
 - Responsive UI with Bootstrap 5
 
+### Email Notifications
+Uses Action Mailer with Sidekiq background jobs and Gmail SMTP for:
+- Welcome email on signup
+- Order confirmation on purchase  
+- Status update when admin changes order status
+
 ## 🛠️ Tech Stack
 - **Framework:** Ruby on Rails 7.1
 - **Language:** Ruby 3.2.2

@@ -11,6 +11,7 @@ class Order < ApplicationRecord
   validate :valid_status_transition, if: :status_changed?
 
   after_create :send_order_confirmation
+  after_update :send_status_update_email, if: :status_previously_changed?
 
   enum status: {
     pending: 0,
@@ -44,5 +45,9 @@ class Order < ApplicationRecord
 
   def send_order_confirmation
     OrderMailer.confirmation_email(self).deliver_later
+  end
+
+  def send_status_update_email
+    OrderMailer.status_update_email(self).deliver_later
   end
 end

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="text-align: center; padding: 20px; background-color: #1a1a1a; color: white; border-radius: 8px;">
+      <h1>🕯️ Heaven Candles</h1>
+      <h2 style="color: #28a745;">Order Status Update</h2>
+      <p style="font-size: 18px;">Order Number: <strong><%= @order.order_number %></strong></p>
+      <p style="font-size: 18px;">Your order is now: <strong><%= @order.status.capitalize %></strong></p>
+      <p style="font-size: 16px;">
+        <%= case @order.status
+            when "processing" then "🔄 We're preparing your order!"
+            when "shipped" then "🚚 Your order is on its way!"
+            when "delivered" then "🎉 Your order has been delivered!"
+            when "cancelled" then "❌ Your order has been cancelled."
+            end %>
+      </p>
+    </div>
+    <%= render 'order_details' %>
+  </body>
+</html>

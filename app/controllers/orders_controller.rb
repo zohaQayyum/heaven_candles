@@ -79,6 +79,7 @@ class OrdersController < ApplicationController
       :status,
       :total_amount,
       :shipping_name,
+      :shipping_email,
       :shipping_address,
       :shipping_city,
       :shipping_phone,

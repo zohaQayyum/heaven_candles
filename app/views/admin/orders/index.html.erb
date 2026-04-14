@@ -16,7 +16,7 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= order.user_email %></td>
+        <td><%= order.user&.email || order.shipping_email %></td>
         <td>
           <%= link_to admin_order_path(order), class: "text-decoration-none" do %>
             <span class="badge bg-secondary" 

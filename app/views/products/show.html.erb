@@ -1,5 +1,43 @@
-<div class="row">
-  <div class="col-md-8">
+<div class="row g-5">
+  <div class="col-md-5">
+    <% if @product.images.attached? %>
+      <% if @product.images.count > 1 %>
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner rounded shadow">
+            <% @product.images.each_with_index do |image, index| %>
+              <div class="carousel-item <%= 'active' if index == 0 %>">
+                <%= image_tag image, class: "d-block w-100", style:"height: 400px; object-fit: contain; background-color: #f8f9fa;" %>
+              </div>
+            <% end %>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" style="filter: invert(1);"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" style="filter: invert(1);"></span>
+          </button>
+          <div class="d-flex gap-2 mt-3 flex-wrap">
+            <% @product.images.each_with_index do |image, index| %>
+              <%= image_tag image, 
+                  class: "img-thumbnail", 
+                  style: "height: 70px; width: 70px; object-fit: cover; cursor: pointer;",
+                  data: { "bs-target": "#productCarousel", "bs-slide-to": index } %>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <%= image_tag @product.images.first, 
+            class: "img-fluid rounded shadow", 
+            style:"height: 400px; object-fit: contain; background-color: #f8f9fa;" %>
+      <% end %>
+    <% else %>
+      <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 400px;">
+        <span class="text-muted fs-1">🕯️</span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-7">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
@@ -7,11 +45,14 @@
       </ol>
     </nav>
 
-    <h1 class="mb-1"><%= @product.name %></h1>
+    <h1 class="mb-2"><%= @product.name %></h1>
     <span class="badge bg-secondary mb-3"><%= @product.category_name %></span>
-    <p class="lead"><%= @product.description %></p>
+    <p class="lead text-muted"><%= @product.description %></p>
 
-    <table class="table table-bordered mt-2">
+    <hr>
+
+    <h5 class="mb-3">Available Sizes</h5>
+    <table class="table table-bordered">
       <thead class="table-dark">
         <tr>
           <th>Size</th>
@@ -21,15 +62,6 @@
         </tr>
       </thead>
       <tbody>
-        <% if @product.images.attached? %>
-          <div class="d-flex gap-3 flex-wrap mb-3">
-            <% @product.images.each do |image| %>
-              <%= image_tag image, class: "img-thumbnail", style: "height: 200px; object-fit: cover;" %>
-            <% end %>
-          </div>
-        <% end %>
-
-        <h4 class="mt-4">Available Sizes</h4>
         <% @product.product_variants.order(:size).each do |variant| %>
           <tr>
             <td><%= variant.size.capitalize %></td>

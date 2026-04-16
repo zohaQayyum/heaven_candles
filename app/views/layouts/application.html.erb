@@ -6,15 +6,22 @@
   </head>
   <body>
     <%= render "shared/navbar" %>
-    <div class="container mt-4">
-      <% if notice %>
+    <% if notice %>
+      <div class="container mt-2">
         <div class="alert alert-success alert-dismissible"><%= notice %></div>
-      <% end %>
-      <% if alert %>
-        <div class="alert alert-danger alert-dismissible"><%= alert %></div>
-      <% end %>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-danger alert-dismissible"><%= alert %></div>
+    <% end %>
+    <% if content_for?(:full_width_header) %>
+      <%= yield :full_width_header %>
+    <% end %>
+
+    <div class="container mt-4">
       <%= yield %>
     </div>
+
+    <%= render "shared/footer" %>
   </body>
-  <%= render "shared/footer" %>
 </html>

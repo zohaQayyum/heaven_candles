@@ -22,11 +22,11 @@ export default class extends Controller {
     })
     if (!variant) return
 
-    this.priceTarget.textContent = "Rs." + variant.price
+    this.priceTarget.textContent = "Rs. " + variant.price
     this.cartFormTarget.innerHTML = `
     <form action="/cart/add/${variant.id}" method="post" data-turbo="false">
       <input type="hidden" name="authenticity_token" value="${document.querySelector('meta[name=csrf-token]').content}" />
-      <button type="submit" class="btn btn-dark btn-lg px-5 mt-2">Add to Cart</button>
+      <button type="submit" class="btn btn-dark btn px-5 px-5 mt-2">Add to Cart</button>
     </form>`
   }
 }

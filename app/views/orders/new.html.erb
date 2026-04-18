@@ -75,14 +75,14 @@
                 <strong><%= variant.product.name %></strong><br>
                 <small class="text-muted"><%= variant.size.capitalize %> x <%= quantity %></small>
               </td>
-              <td class="text-end">$<%= subtotal.round(2) %></td>
+              <td class="text-end">Rs.<%= subtotal.round(2) %></td>
             </tr>
           <% end %>
         </table>
         <hr>
         <div class="d-flex justify-content-between">
           <strong>Total</strong>
-          <strong class="text-success">$<%= total.round(2) %></strong>
+          <strong class="text-success">Rs.<%= total.round(2) %></strong>
         </div>
       </div>
     </div>

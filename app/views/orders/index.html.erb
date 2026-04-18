@@ -23,7 +23,7 @@
           <td><strong><%= order.order_number %></strong></td>
           <td><%= order.created_at.strftime("%B %d, %Y") %></td>
           <td><%= order.order_items.count %> items</td>
-          <td class="text-success fw-bold">$<%= order.total_amount %></td>
+          <td class="text-success fw-bold">Rs.<%= order.total_amount %></td>
           <td> 
             <span class="badge <%= order_status_badge_class(order.status) %>">
               <%= order.status.capitalize %>

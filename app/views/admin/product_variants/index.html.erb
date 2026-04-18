@@ -17,7 +17,7 @@
     <% @variants.each do |variant| %>
       <tr>
         <td><span class="badge bg-secondary"><%= variant.size.capitalize %></span></td>
-        <td class="text-success fw-bold">$<%= variant.price %></td>
+        <td class="text-success fw-bold">Rs.<%= variant.price %></td>
         <td>
           <% if variant.stock == 0 %>
             <span class="badge bg-danger">Out of Stock</span>

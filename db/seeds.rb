@@ -42,9 +42,9 @@ products_data = [
 
 products_data.each do |data|
   product = Product.create!(data)
-  ProductVariant.create!(product: product, size: :small, price: rand(10.0..20.0).round(2), stock: rand(10..50), sku: "#{product.name.downcase.gsub(' ', '-')}-sm")
-  ProductVariant.create!(product: product, size: :medium, price: rand(20.0..35.0).round(2), stock: rand(10..50), sku: "#{product.name.downcase.gsub(' ', '-')}-md")
-  ProductVariant.create!(product: product, size: :large, price: rand(35.0..50.0).round(2), stock: rand(10..50), sku: "#{product.name.downcase.gsub(' ', '-')}-lg")
+  ProductVariant.create!(product: product, size: :small, price: rand(800..1200), stock: rand(10..50), sku: "#{product.name.downcase.gsub(' ', '-')}-sm")
+  ProductVariant.create!(product: product, size: :medium, price: rand(1500..2500), stock: rand(10..50), sku: "#{product.name.downcase.gsub(' ', '-')}-md")
+  ProductVariant.create!(product: product, size: :large, price: rand(2800..4000), stock: rand(10..50), sku: "#{product.name.downcase.gsub(' ', '-')}-lg")
 end
 
 puts "✅ Seed data created successfully!"

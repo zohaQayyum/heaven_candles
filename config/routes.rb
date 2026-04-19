@@ -16,9 +16,9 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show], controller: 'cart'
   post 'cart/add/:variant_id', to: 'cart#add', as: :add_to_cart
-  delete 'cart/remove/:variant_id', to: 'cart#remove', as: :remove_from_cart
-  patch 'cart/increment/:variant_id', to: 'cart#increment', as: :increment_cart
-  patch 'cart/decrement/:variant_id', to: 'cart#decrement', as: :decrement_cart
+  delete 'cart/remove/:id', to: 'cart#remove', as: :remove_from_cart
+  patch 'cart/increment/:id', to: 'cart#increment', as: :increment_cart
+  patch 'cart/decrement/:id', to: 'cart#decrement', as: :decrement_cart
 
   namespace :admin do
     resources :products do

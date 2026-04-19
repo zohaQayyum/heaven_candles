@@ -14,23 +14,26 @@ class OrdersController < ApplicationController
   end
 
   def new
-    if session[:cart].blank?
+    @cart = current_cart
+    @cart_items = @cart.cart_items.includes(product_variant: :product)
+    
+    if @cart_items.empty?
       redirect_to cart_path, alert: "Your cart is empty."
       return
     end
-    @cart = session[:cart]
-    @variants = ProductVariant.includes(:product).where(id: @cart.keys)
+    
     @order = Order.new
   end
 
   def create
-    if session[:cart].blank?
+    cart = current_cart
+    if cart.cart_items.empty?
       redirect_to cart_path, alert: "Your cart is empty."
       return
     end
 
-    @cart = session[:cart]
-    @variants = ProductVariant.includes(:product).where(id: @cart.keys)
+    @cart = cart
+    @cart_items  = @cart.cart_items
 
     @order = Order.new(order_params)
     @order.user = current_user if current_user
@@ -38,27 +41,30 @@ class OrdersController < ApplicationController
     @order.status = :pending
 
     total = 0
-    @variants.each do |variant|
-      quantity = @cart[variant.id.to_s]
-      total += variant.price * quantity
-    end
-    @order.total_amount = total.to_i
 
     if @order.save
-      @variants.each do |variant|
-        quantity = @cart[variant.id.to_s]
-        @order.order_items.create!(
-          product_variant: variant,
-          sku: variant.sku,
-          product_name: variant.product.name,
-          size: variant.size,
-          quantity: quantity,
-          unit_price: variant.price.to_i,
-          total_price: (variant.price * quantity).to_i
-        )
-        variant.decrement!(:stock, quantity)
+      
+      ActiveRecord::Base.transaction do
+        @cart_items.each do |item|
+          variant = item.product_variant
+          quantity = item.quantity
+          total += variant.price * quantity
+          
+          @order.order_items.create!(
+            product_variant: variant,
+            sku: variant.sku,
+            product_name: variant.product.name,
+            size: variant.size,
+            quantity: quantity,
+            unit_price: variant.price.to_i,
+            total_price: (variant.price * quantity).to_i
+          )
+          variant.decrement!(:stock, quantity)
+        end
+        
+        @order.update!(total_amount: total.to_i)
+        current_cart.cart_items.destroy_all
       end
-      session[:cart] = {}
       redirect_to @order, notice: "Order placed successfully!"
     else
       render :new, status: :unprocessable_entity

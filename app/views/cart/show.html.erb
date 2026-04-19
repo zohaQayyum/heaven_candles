@@ -1,6 +1,6 @@
 <h1 class="mb-4">🛒 Your Cart</h1>
 
-<% if @variants.empty? %>
+<% if @cart_items.empty? %>
   <div class="text-center py-5">
     <p class="lead text-muted">Your cart is empty.</p>
     <%= link_to "Continue Shopping", products_path, class: "btn btn-dark" %>
@@ -18,19 +18,19 @@
       </tr>
     </thead>
     <tbody>
-      <% @variants.each do |variant| %>
+      <% @cart_items.each do |item| %>
         <tr>
-          <td><strong><%= variant.product.name %></strong></td>
-          <td><%= variant.size.capitalize %></td>
-          <td>Rs.<%= variant.price %></td>
+          <td><strong><%= item.product_variant.product.name %></strong></td>
+          <td><%= item.product_variant.size.capitalize %></td>
+          <td>Rs.<%= item.product_variant.price %></td>
           <td>
-            <%= button_to "-", decrement_cart_path(variant.id), method: :patch, class: "btn btn-outline-dark btn-sm", data: { turbo: false } %>
-            <span class="mx-2"><%= @cart[variant.id.to_s] %></span>
-            <%= button_to "+", increment_cart_path(variant.id), method: :patch, class: "btn btn-outline-dark btn-sm", data: { turbo: false } %>
+            <%= button_to "-", decrement_cart_path(item.id), method: :patch, class: "btn btn-outline-dark btn-sm", data: { turbo: false } %>
+            <span class="mx-2"><%= item.quantity %></span>
+            <%= button_to "+", increment_cart_path(item.id), method: :patch, class: "btn btn-outline-dark btn-sm", data: { turbo: false } %>
           </td>
-          <td class="text-success fw-bold">Rs.<%= (variant.price * @cart[variant.id.to_s]).round(2) %></td>
+          <td class="text-success fw-bold">Rs.<%= (item.product_variant.price * item.quantity).round(2) %></td>
           <td>
-            <%= button_to "Remove", remove_from_cart_path(variant.id), method: :delete, class: "btn btn-danger btn-sm", data: { turbo: false } %>
+            <%= button_to "Remove", remove_from_cart_path(item.id), method: :delete, class: "btn btn-danger btn-sm", data: { turbo: false } %>
           </td>
         </tr>
       <% end %>

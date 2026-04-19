@@ -9,11 +9,12 @@ class CartController < ApplicationController
 
   def add
     current_quantity = @cart[@variant.id.to_s] || 0
+    requested = [params[:quantity].to_i, 1].max
 
-    if current_quantity >= @variant.stock
+    if current_quantity + requested > @variant.stock
       redirect_to product_path(@variant.product), alert: "Sorry, only #{@variant.stock} available in stock!"
     else
-      @cart[@variant.id.to_s] = current_quantity + 1
+      @cart[@variant.id.to_s] = current_quantity + requested
       redirect_to product_path(@variant.product), notice: "Added to cart!"
     end
   end

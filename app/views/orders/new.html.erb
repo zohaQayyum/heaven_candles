@@ -66,14 +66,14 @@
       <div class="card-body">
         <table class="table table-sm">
           <% total = 0 %>
-          <% @variants.each do |variant| %>
-            <% quantity = @cart[variant.id.to_s] %>
-            <% subtotal = variant.price * quantity %>
+          <% @cart_items.each do |item| %>
+            <% quantity = item.quantity %>
+            <% subtotal = item.product_variant.price * quantity %>
             <% total += subtotal %>
             <tr>
               <td>
-                <strong><%= variant.product.name %></strong><br>
-                <small class="text-muted"><%= variant.size.capitalize %> x <%= quantity %></small>
+                <strong><%= item.product_variant.product.name %></strong><br>
+                <small class="text-muted"><%= item.product_variant.size.capitalize %> x <%= quantity %></small>
               </td>
               <td class="text-end">Rs.<%= subtotal.round(2) %></td>
             </tr>

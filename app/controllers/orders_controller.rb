@@ -56,6 +56,7 @@ class OrdersController < ApplicationController
           unit_price: variant.price.to_i,
           total_price: (variant.price * quantity).to_i
         )
+        variant.decrement!(:stock, quantity)
       end
       session[:cart] = {}
       redirect_to @order, notice: "Order placed successfully!"

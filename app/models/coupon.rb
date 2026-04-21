@@ -1,5 +1,6 @@
 class Coupon < ApplicationRecord
   has_many :coupon_usages
+  has_many :orders
 
   validates :discount_value, numericality: { greater_than: 0 } 
   validates :code, uniqueness: true

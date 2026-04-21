@@ -7,9 +7,9 @@ class OrdersController < ApplicationController
 
   def show
     if current_user
-      @order = current_user.orders.find(params[:id])
+      @order = current_user.orders.includes(:coupon).find(params[:id])
     else
-      @order = Order.find(params[:id])
+      @order = Order.includes(:coupon).find(params[:id])
     end
   end
 
@@ -33,23 +33,20 @@ class OrdersController < ApplicationController
     end
 
     @cart = cart
-    @cart_items  = @cart.cart_items
-
+    @cart_items = @cart.cart_items
     @order = Order.new(order_params)
     @order.user = current_user if current_user
     @order.order_number = "HC-#{SecureRandom.hex(4).upcase}"
     @order.status = :pending
-
-    total = 0
+    @order.coupon = find_coupon_from_params
 
     if @order.save
-      
       ActiveRecord::Base.transaction do
+        total = 0
         @cart_items.each do |item|
           variant = item.product_variant
           quantity = item.quantity
           total += variant.price * quantity
-          
           @order.order_items.create!(
             product_variant: variant,
             sku: variant.sku,
@@ -61,7 +58,12 @@ class OrdersController < ApplicationController
           )
           variant.decrement!(:stock, quantity)
         end
-        
+
+        if @order.coupon.present?
+          total = apply_discount(@order.coupon, total)
+          CouponUsage.create!(coupon: @order.coupon, user: current_user)
+        end
+
         @order.update!(total_amount: total.to_i)
         current_cart.cart_items.destroy_all
       end
@@ -79,6 +81,16 @@ class OrdersController < ApplicationController
 
   private
 
+  def find_coupon_from_params
+    return unless params[:order] && params[:order][:coupon_code].present?
+    coupon = Coupon.find_by(code: params[:order][:coupon_code].strip.upcase)
+    coupon if coupon&.valid_for?(current_user)
+  end
+
+  def apply_discount(coupon, total)
+    coupon.discount_type == "percentage" ? total - (total * coupon.discount_value / 100) : total - coupon.discount_value
+  end
+
   def order_params
     params.require(:order).permit(
       :user_id,
@@ -91,7 +103,8 @@ class OrdersController < ApplicationController
       :shipping_city,
       :shipping_phone,
       :payment_reference,
-      :payment_status
+      :payment_status,
+      :coupon_id
     )
   end
 end

@@ -39,7 +39,12 @@
             <% end %>
           </tbody>
         </table>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end flex-column align-items-end">
+          <% if @order.coupon.present? %>
+            <span class="text-success small mb-1">
+              Coupon applied: <%= @order.coupon.discount_type == "percentage" ? "#{@order.coupon.discount_value.to_i}% off" : "Rs. #{@order.coupon.discount_value} off" %>
+            </span>
+          <% end %>
           <h5>Total: <span class="text-success">Rs.<%= @order.total_amount %></span></h5>
         </div>
       </div>

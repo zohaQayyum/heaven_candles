@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   delete 'cart/remove/:id', to: 'cart#remove', as: :remove_from_cart
   patch 'cart/increment/:id', to: 'cart#increment', as: :increment_cart
   patch 'cart/decrement/:id', to: 'cart#decrement', as: :decrement_cart
+  post 'coupons/apply', to: 'coupons#apply', as: :apply_coupon
 
   namespace :admin do
     resources :products do

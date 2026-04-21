@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   belongs_to :user, optional: true
   has_many :order_items, dependent: :destroy
+  belongs_to :coupon, optional: true
 
   validates :total_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 

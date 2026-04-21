@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-
+      <input type="hidden" name="order[coupon_code]" id="form-coupon-code" />
       <%= f.submit "Place Order", class: "btn btn-dark btn-lg w-100 mt-2" %>
     <% end %>
   </div>
@@ -79,11 +79,28 @@
             </tr>
           <% end %>
         </table>
-        <hr>
-        <div class="d-flex justify-content-between">
-          <strong>Total</strong>
-          <strong class="text-success">Rs.<%= total.round(2) %></strong>
+
+        <div data-controller="coupon" class="mb-3" data-coupon-original-total-value="<%= total %>">
+          <label class="form-label small text-muted">Have a coupon?</label>
+          <div class="input-group">
+            <input type="text" 
+                  class="form-control form-control-sm" 
+                  placeholder="Enter coupon code"
+                  data-coupon-target="code" />
+            <button type="button" 
+                    class="btn btn-outline-dark btn-sm"
+                    data-action="click->coupon#apply">Apply</button>
+          </div>
+          <span data-coupon-target="discountDisplay" class="small mt-1 d-block"></span>
+          <input type="hidden" data-coupon-target="hiddenCode" name="coupon_code" />
+          <hr>
+
+          <div class="d-flex justify-content-between">
+            <strong>Total</strong>
+            <strong class="text-success" data-coupon-target="total">Rs.<%= total.round(2) %></strong>
+          </div>
         </div>
+
       </div>
     </div>
     <%= link_to "← Back to Cart", cart_path, class: "btn btn-outline-dark w-100 mt-3" %>

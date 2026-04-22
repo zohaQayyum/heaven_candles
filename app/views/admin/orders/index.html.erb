@@ -27,7 +27,7 @@
           <% end %>
         </td>
         <td><%= order.created_at.strftime("%b %d, %Y") %></td>
-        <td><%= number_to_currency(order.total_amount) %></td>
+        <td><%= number_to_currency(order.total_amount, unit: "Rs. ", separator: ".", delimiter: ",", format: "%u%n") %></td>
         <td> 
           <span class="badge <%= order_status_badge_class(order.status) %>">
             <%= order.status.capitalize %>

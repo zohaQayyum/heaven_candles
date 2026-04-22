@@ -22,6 +22,13 @@ Rails.application.routes.draw do
   post 'coupons/apply', to: 'coupons#apply', as: :apply_coupon
 
   namespace :admin do
+    get 'coupons/index'
+    get 'coupons/new'
+    get 'coupons/create'
+    get 'coupons/edit'
+    get 'coupons/update'
+    get 'coupons/destroy'
+    resources :coupons
     resources :products do
       resources :variants, controller: 'product_variants'
       member do

@@ -54,4 +54,13 @@ export default class extends Controller {
     this.discountDisplayTarget.innerText = text
     this.discountDisplayTarget.className = type === "success" ? "text-success small" : "text-danger small"
   }
+
+  clear() {
+    this.codeTarget.value = ""
+    this.discountDisplayTarget.innerText = ""
+    this.hiddenCodeTarget.value = ""
+    this.totalTarget.textContent = `Rs. ${this.originalTotalValue.toFixed(2)}`
+    const formInput = document.getElementById('form-coupon-code')
+    if (formInput) formInput.value = ""
+  }
 }

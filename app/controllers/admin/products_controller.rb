@@ -2,7 +2,7 @@ class Admin::ProductsController < Admin::ApplicationController
   before_action :set_product, only:%i[edit update destroy remove_image]
 
   def index
-    @products = Product.includes(:category).all
+    @products = Product.includes(:category).all.page(params[:page]).per(10)
   end
 
   def new

@@ -59,10 +59,10 @@
       <div class="d-flex gap-2 mb-3">
         <% @product.product_variants.order(:size).each do |variant| %>
           <button type="button"
-                  class="btn btn-outline-dark"
-                  data-variant-id="<%= variant.id %>"
-                  data-product-variants-target="option"
-                  data-action="click->product-variants#getPrice">
+            class="btn btn-outline-dark <%= 'opacity-50' if variant.stock == 0 %>"
+            data-variant-id="<%= variant.id %>"
+            data-product-variants-target="option"
+            data-action="click->product-variants#getPrice">
             <%= variant.size.capitalize %>
           </button>
         <% end %>

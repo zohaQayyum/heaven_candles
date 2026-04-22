@@ -2,7 +2,7 @@ class Admin::CategoriesController < Admin::ApplicationController
   before_action :set_category, only:%i[edit update destroy]
 
   def index
-    @categories = Category.includes(:products).all
+    @categories = Category.includes(:products).all.page(params[:page]).per(5)
   end
 
   def new

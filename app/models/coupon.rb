@@ -1,5 +1,5 @@
 class Coupon < ApplicationRecord
-  has_many :coupon_usages
+  has_many :coupon_usages, dependent: :destroy
   has_many :orders
 
   validates :discount_value, numericality: { greater_than: 0 } 

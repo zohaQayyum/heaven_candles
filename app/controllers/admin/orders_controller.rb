@@ -6,7 +6,7 @@ class Admin::OrdersController < Admin::ApplicationController
   end
 
   def show
-    @order = Order.find(params[:id])
+    @order = Order.includes(:coupon).find(params[:id])
   end
 
   def update

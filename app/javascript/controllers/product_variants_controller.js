@@ -11,7 +11,9 @@ export default class extends Controller {
   }
 
   connect() {
-    this.selectVariant(this.variantsValue[0].id)
+    if (this.variantsValue.length > 0) {
+      this.selectVariant(this.variantsValue[0].id)
+    }
   }
 
   selectVariant(variantId) {

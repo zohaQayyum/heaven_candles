@@ -11,7 +11,9 @@ export default class extends Controller {
   }
 
   connect() {
-    this.selectVariant(this.variantsValue[0].id)
+    if (this.variantsValue.length > 0) {
+      this.selectVariant(this.variantsValue[0].id)
+    }
   }
 
   selectVariant(variantId) {
@@ -23,24 +25,28 @@ export default class extends Controller {
     if (!variant) return
 
     this.priceTarget.textContent = "Rs. " + variant.price
-    this.cartFormTarget.innerHTML = `
-    <form action="/cart/add/${variant.id}" method="post" data-turbo="false">
-      <input type="hidden" name="authenticity_token" value="${document.querySelector('meta[name=csrf-token]').content}" />
-      <input type="hidden" name="quantity" id="quantity-input" value="1" />
-      <div class="d-flex align-items-center gap-3 mt-3 mb-3">
-        <button type="button" class="btn btn-outline-dark px-3" onclick="
-          const q = document.getElementById('quantity-input');
-          const s = document.getElementById('quantity-display');
-          if (parseInt(q.value) > 1) { q.value = parseInt(q.value) - 1; s.textContent = q.value; }
-        ">−</button>
-        <span id="quantity-display">1</span>
-        <button type="button" class="btn btn-outline-dark px-3" onclick="
-          const q = document.getElementById('quantity-input');
-          const s = document.getElementById('quantity-display');
-          q.value = parseInt(q.value) + 1; s.textContent = q.value;
-        ">+</button>
-      </div>
-      <button type="submit" class="btn btn-dark px-5">Add to Cart</button>
-    </form>`
+    if (variant.stock === 0) {
+      this.cartFormTarget.innerHTML = `<button class="btn btn-secondary px-5" disabled>Out of Stock</button>`
+    } else {
+      this.cartFormTarget.innerHTML = 
+      `<form action="/cart/add/${variant.id}" method="post" data-turbo="false">
+        <input type="hidden" name="authenticity_token" value="${document.querySelector('meta[name=csrf-token]').content}" />
+        <input type="hidden" name="quantity" id="quantity-input" value="1" />
+        <div class="d-flex align-items-center gap-3 mt-3 mb-3">
+          <button type="button" class="btn btn-outline-dark px-3" onclick="
+            const q = document.getElementById('quantity-input');
+            const s = document.getElementById('quantity-display');
+            if (parseInt(q.value) > 1) { q.value = parseInt(q.value) - 1; s.textContent = q.value; }
+          ">−</button>
+          <span id="quantity-display">1</span>
+          <button type="button" class="btn btn-outline-dark px-3" onclick="
+            const q = document.getElementById('quantity-input');
+            const s = document.getElementById('quantity-display');
+            q.value = parseInt(q.value) + 1; s.textContent = q.value;
+          ">+</button>
+        </div>
+        <button type="submit" class="btn btn-dark px-5">Add to Cart</button>
+      </form>`
+    }
   }
 }

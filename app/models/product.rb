@@ -20,4 +20,8 @@ class Product < ApplicationRecord
   def starting_price
     product_variants.minimum(:price)
   end
+
+  def average_rating
+    reviews.approved.average(:rating)&.round(1)
+  end
 end

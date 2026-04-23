@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Review — <%= @review.product.name %></h1>
+  <%= link_to "← Back", request.referrer || admin_reviews_path, class: "btn btn-outline-dark" %>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="d-flex justify-content-between mb-3">
+      <div>
+        <strong><%= @review.user&.name || @review.guest_name || "Anonymous" %></strong>
+        <% if @review.guest_email.present? %>
+          <small class="text-muted ms-2"><%= @review.guest_email %></small>
+        <% end %>
+      </div>
+      <small class="text-muted"><%= @review.created_at.strftime("%b %d, %Y") %></small>
+    </div>
+
+    <div class="mb-3">
+      <span class="text-warning fs-5"><%= "⭐" * @review.rating %></span>
+    </div>
+
+    <p class="mb-4"><%= @review.comment %></p>
+
+    <div class="d-flex gap-2">
+      <span class="badge <%= @review.status == 'approved' ? 'bg-success' : @review.status == 'rejected' ? 'bg-danger' : 'bg-warning text-dark' %> me-3 fs-6">
+        <%= @review.status.capitalize %>
+      </span>
+      <%= button_to "Approve", admin_review_path(@review), method: :patch, params: { status: "approved" }, class: "btn btn-success btn-sm" %>
+      <%= button_to "Reject", admin_review_path(@review), method: :patch, params: { status: "rejected" }, class: "btn btn-danger btn-sm" %>
+    </div>
+  </div>
+</div>

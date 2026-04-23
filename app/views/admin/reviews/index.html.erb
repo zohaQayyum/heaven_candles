@@ -27,6 +27,7 @@
         </td>
         <td>
           <div class="d-flex gap-1">
+            <%= link_to "View", admin_review_path(review), class: "btn btn-outline-dark btn-sm" %>
             <%= button_to "Approve", admin_review_path(review.id), method: :patch, params: { status: "approved" }, class: "btn btn-success btn-sm me-1" %>
             <%= button_to "Reject", admin_review_path(review.id), method: :patch, params: { status: "rejected" }, class: "btn btn-danger btn-sm" %>
           </div>

@@ -9,5 +9,6 @@ class ProductsController < ApplicationController
   
   def show
     @product = Product.includes(:category, :product_variants).find(params[:id])
+    @reviews = @product.reviews.approved.order(created_at: :desc)
   end
 end

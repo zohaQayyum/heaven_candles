@@ -9,6 +9,11 @@ class ProductsController < ApplicationController
   
   def show
     @product = Product.includes(:category, :product_variants).find(params[:id])
-    @reviews = @product.reviews.approved.order(created_at: :desc)
+    @reviews = @product.reviews.approved.order(created_at: :desc).limit(2)
+    @reviews_count = @product.reviews.approved.count
+    @related_products = Product.includes(:category, :product_variants)
+                           .where(category: @product.category)
+                           .where.not(id: @product.id)
+                           .limit(3)
   end
 end

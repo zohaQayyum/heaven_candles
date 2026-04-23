@@ -4,6 +4,7 @@ class Product < ApplicationRecord
   has_many_attached :images
   belongs_to :category
   has_many :product_variants, dependent: :destroy
+  has_many :reviews, dependent: :destroy
 
   validates :name, presence: true
 

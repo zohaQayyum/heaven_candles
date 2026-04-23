@@ -74,3 +74,58 @@
     </div>
   </div>
 </div>
+
+<hr class="mt-5">
+<h4 class="mb-4">Customer Reviews</h4>
+
+<% if @reviews.empty? %>
+  <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+<% else %>
+  <% @reviews.each do |review| %>
+    <div class="border-bottom pb-3 mb-3">
+      <div class="d-flex justify-content-between">
+        <strong><%= review.user&.name || review.guest_name || "Anonymous" %></strong>
+        <small class="text-muted"><%= review.created_at.strftime("%b %d, %Y") %></small>
+      </div>
+      <div class="text-warning">
+        <%= "⭐" * review.rating %><%= "☆" * (5 - review.rating) %>
+      </div>
+      <p class="mt-2 mb-0"><%= review.comment %></p>
+    </div>
+  <% end %>
+<% end %>
+
+<%= form_with url: product_reviews_path(@product), method: :post, scope: :review, class: "mt-3", data: { turbo: false } do |f| %>
+  <div class="mb-3">
+    <%= f.label :rating, "Rating", class: "form-label" %>
+    <div class="d-flex gap-2">
+      <% (1..5).each do |star| %>
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :rating, star, id: "rating_#{star}" %>
+          <%= label_tag "rating_#{star}", "⭐ #{star}", class: "form-check-label" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :comment, class: "form-label" %>
+    <%= f.text_area :comment, rows: 4, class: "form-control" %>
+  </div>
+
+  <% unless current_user %>
+    <div class="mb-3">
+      <%= f.label :guest_name, class: "form-label" %>
+      <%= f.text_field :guest_name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :guest_email, class: "form-label" %>
+      <%= f.text_field :guest_email, class: "form-control" %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.submit class: "btn btn-dark" %>
+  </div>
+<% end %>

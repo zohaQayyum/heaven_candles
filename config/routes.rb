@@ -1,11 +1,15 @@
 require "sidekiq/web"
 Rails.application.routes.draw do
+  get 'reviews/create'
   devise_for :users 
   mount Sidekiq::Web => "/sidekiq"
   
   root "home#index"
   
-  resources :products, only: [:index, :show]
+  resources :products, only: [:index, :show] do
+    resources :reviews, only: [:create]
+  end
+
   resources :orders, only: [:index, :show, :new, :create] do
     collection do
       get :track
@@ -22,12 +26,7 @@ Rails.application.routes.draw do
   post 'coupons/apply', to: 'coupons#apply', as: :apply_coupon
 
   namespace :admin do
-    get 'coupons/index'
-    get 'coupons/new'
-    get 'coupons/create'
-    get 'coupons/edit'
-    get 'coupons/update'
-    get 'coupons/destroy'
+    resources :reviews, only: [:index, :update, :show]
     resources :coupons
     resources :products do
       resources :variants, controller: 'product_variants'

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post 'coupons/apply', to: 'coupons#apply', as: :apply_coupon
 
   namespace :admin do
+    resources :reviews, only: [:index, :update]
     resources :coupons
     resources :products do
       resources :variants, controller: 'product_variants'

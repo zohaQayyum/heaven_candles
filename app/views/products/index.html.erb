@@ -59,7 +59,7 @@
           <% end %>
           <div class="card-body">
             <h5 class="card-title"><%= product.name %></h5>
-            <p class="card-text text-muted"><%= product.description %></p>
+            <p class="card-text text-muted"><%= truncate(product.description, length: 80) %></p>
           </div>
           <div class="card-footer d-flex justify-content-between align-items-center">
             <% if product.starting_price %>

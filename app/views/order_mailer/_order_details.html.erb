@@ -18,6 +18,18 @@
           <td style="padding: 10px; text-align: right;">Rs.<%= item.total_price %></td>
         </tr>
       <% end %>
+      
+      <% if @order.coupon.present? %>
+        <tr style="color: green;">
+          <td colspan="3" style="padding: 10px; text-align: right;">
+            🎟 Coupon (<%= @order.coupon.code %>):
+          </td>
+          <td style="padding: 10px; text-align: right;">
+            - <%= @order.coupon.discount_type == "percentage" ? "#{@order.coupon.discount_value.to_i}%" : "Rs. #{@order.coupon.discount_value}" %> off
+          </td>
+        </tr>
+      <% end %>
+
       <tr>
         <td colspan="3" style="padding: 10px; text-align: right;"><strong>Total:</strong></td>
         <td style="padding: 10px; text-align: right; color: green;"><strong>Rs.<%= @order.total_amount %></strong></td>

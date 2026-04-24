@@ -2,6 +2,7 @@ class Admin::ReviewsController < Admin::ApplicationController
   before_action :set_review, only:%i[show update]
 
   def index
+    @products = Product.order(:name)
     @reviews = Review.includes(:user, :product)
     @reviews = @reviews.where(product_id: params[:product_id]) if params[:product_id].present?
     @reviews = @reviews.all.page(params[:page]).per(10)

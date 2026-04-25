@@ -2,7 +2,10 @@ class Admin::OrdersController < Admin::ApplicationController
   before_action :set_order, only:%i[update]
 
   def index
-    @orders = Order.includes(:user).order(created_at: :desc).page(params[:page]).per(10)
+    @orders = Order.includes(:user).order(created_at: :desc)
+    @orders = @orders.where(status: params[:status]) if params[:status].present?
+    @orders = @orders.where("order_number ILIKE ?", "%#{params[:order_number].strip}%") if params[:order_number].present?
+    @orders = @orders.page(params[:page]).per(10)
   end
 
   def show

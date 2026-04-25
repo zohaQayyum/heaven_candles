@@ -6,9 +6,12 @@
   <%= f.collection_select :product_id, @products, :id, :name,
       { include_blank: "All Products", selected: params[:product_id] },
       { class: "form-select form-select-sm", style: "width: 200px;", onchange: "this.form.submit()" } %>
-  <% if params[:product_id].present? %>
-    <%= link_to "Clear", admin_reviews_path, class: "btn btn-outline-secondary btn-sm" %>
-  <% end %>
+
+  <%= f.select :status, 
+    [["Pending", "pending"], ["Approved", "approved"], ["Rejected", "rejected"]],
+    { include_blank: "All Statuses", selected: params[:status] },
+    { class: "form-select form-select-sm", style: "width: 160px;", onchange: "this.form.submit()" } %>
+
 <% end %>
 
 <table class="table table-hover table-bordered">

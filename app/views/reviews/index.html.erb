@@ -1,0 +1,25 @@
+<div class="container py-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
+      <li class="breadcrumb-item"><%= link_to @product.name, product_path(@product) %></li>
+      <li class="breadcrumb-item active">All Reviews</li>
+    </ol>
+  </nav>
+
+  <h3 class="mb-4">Customer Reviews for <%= @product.name %></h3>
+
+  <% if @reviews.empty? %>
+    <p class="text-muted">No reviews yet.</p>
+  <% else %>
+    <%= render @reviews %>
+
+    <div class="mt-4">
+      <%= paginate @reviews %>
+    </div>
+  <% end %>
+
+  <div class="mt-4">
+    <%= link_to "← Back to #{@product.name}", product_path(@product), class: "btn btn-outline-dark" %>
+  </div>
+</div>

@@ -1,4 +1,9 @@
 class ReviewsController < ApplicationController
+  def index
+    @product = Product.find(params[:product_id])
+    @reviews = @product.reviews.approved.order(created_at: :desc).page(params[:page]).per(10)
+  end
+
   def create
     @product = Product.find(params[:product_id])
     @review = @product.reviews.new(review_params)

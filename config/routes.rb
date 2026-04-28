@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root "home#index"
   
   resources :products, only: [:index, :show] do
-    resources :reviews, only: [:create]
+    resources :reviews, only: [:create, :index]
   end
 
   resources :orders, only: [:index, :show, :new, :create] do

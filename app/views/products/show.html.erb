@@ -87,20 +87,11 @@
 <% if @reviews.empty? %>
   <p class="text-muted">No reviews yet. Be the first to review this product!</p>
 <% else %>
-  <% @reviews.each do |review| %>
-    <div class="border-bottom pb-3 mb-3">
-      <div class="d-flex justify-content-between">
-        <strong><%= review.user&.name || review.guest_name || "Anonymous" %></strong>
-        <small class="text-muted"><%= review.created_at.strftime("%b %d, %Y") %></small>
-      </div>
-      <div><%= star_rating(review.rating) %></div>
-      <p class="mt-2 mb-0"><%= review.comment %></p>
-    </div>
-  <% end %>
+  <%= render @reviews %>
 
   <% if @reviews_count > 2 %>
     <p class="mt-2">
-      <%= link_to "Show all #{@reviews_count} reviews", "#", class: "text-dark" %>
+      <%= link_to "Show all #{@reviews_count} reviews", product_reviews_path(@product), class: "text-dark" %>
     </p>
   <% end %>
 <% end %>

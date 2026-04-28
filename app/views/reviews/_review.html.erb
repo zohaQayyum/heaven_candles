@@ -1,0 +1,8 @@
+<div class="border-bottom pb-3 mb-3">
+  <div class="d-flex justify-content-between">
+    <strong><%= review.user&.name || review.guest_name || "Anonymous" %></strong>
+    <small class="text-muted"><%= review.created_at.strftime("%b %d, %Y") %></small>
+  </div>
+  <div><%= star_rating(review.rating) %></div>
+  <p class="mt-2 mb-0"><%= review.comment %></p>
+</div>

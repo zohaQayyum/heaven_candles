@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Heaven Candles</title>
+    <title><%= content_for?(:title) ? yield(:title) : "Heaven Candles" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : 'Premium handmade candles — shop our collection of beautifully crafted scented candles.' %>">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <%= render "layouts/head" %>
   </head>
   <body>
